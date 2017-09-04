@@ -1,41 +1,34 @@
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Created by amy on 3/09/2017.
  */
 public class ARFFConverter {
-    private String filename = null;
-    private String[] headers = null;
     private BufferedReader br = null;
     private FileReader fr = null;
     private FileWriter fw = null;
 
-    public ARFFConverter(String filename, String[] headers) {
-        this.filename = filename;
-        this.headers = headers;
+    public ARFFConverter() {
     }
 
-    public String[] getHeaders() {
-        return headers;
-    }
-
-    public void setHeaders(String[] headers) {
-        this.headers = headers;
-    }
-
-    public void convert(){
-        String fileroot = this.filename.substring(filename.lastIndexOf("\\"), filename.lastIndexOf("."));
+    public void convert(String filename, ArrayList<String> headers){
+        String fileroot = filename.substring(filename.lastIndexOf("\\")+1);
         try {
-            fr = new FileReader(this.filename);
+            fr = new FileReader(filename);
             br = new BufferedReader(fr);
             fw = new FileWriter("../" + fileroot + "ARFF.txt");
 
-            String sCurrentLine;
-
-            while ((sCurrentLine = br.readLine()) != null) {
-                System.out.println(sCurrentLine);
+            fw.write("@RELATION " + fileroot.substring(0, fileroot.lastIndexOf(".")) +"\n\n");
+            for (String h : headers) {
+                fw.write("@ATTRIBUTE " + h);
             }
+            fw.write("");
 
+            String currentLine;
+            while ((currentLine = br.readLine()) != null) {
+                System.out.println(currentLine);
+            }
             
 
         } catch (IOException e) {
