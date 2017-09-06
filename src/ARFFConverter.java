@@ -9,27 +9,25 @@ import java.util.ArrayList;
 public class ARFFConverter {
     private BufferedReader br = null;
     private FileReader fr = null;
-    private FileWriter fw = null;
 
     public ARFFConverter() {
     }
 
     public void convert(String filename, ArrayList<HeaderAttribute> headers){
         String fileroot = filename.substring(filename.lastIndexOf("\\")+1);
-        try {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream("filename.txt"), "utf-8"))) {
             fr = new FileReader(filename);
             br = new BufferedReader(fr);
-            fw = new FileWriter("../" + fileroot + "ARFF.txt");
-
-            fw.write("@RELATION " + fileroot.substring(0, fileroot.lastIndexOf(".")) +"\n\n");
+            writer.write("@RELATION " + fileroot.substring(0, fileroot.lastIndexOf(".")) +"\n\n");
             for (HeaderAttribute h : headers) {
-                fw.write("@ATTRIBUTE " + h.getAttributeName());
+                writer.write("@ATTRIBUTE " + h.getAttributeName() + " " + h.getAttributeType() + "\n");
             }
-            fw.write("");
+            writer.write("\n");
 
             String currentLine;
             while ((currentLine = br.readLine()) != null) {
-                System.out.println(currentLine);
+                //System.out.println(currentLine);
             }
             
 
@@ -39,7 +37,6 @@ public class ARFFConverter {
             try {
                 if (br != null) { br.close(); }
                 if (fr != null) { fr.close(); }
-                if (fw != null) { fw.close(); }
             } catch (IOException e) {
                 e.printStackTrace();
             }

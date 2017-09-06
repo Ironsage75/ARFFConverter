@@ -1,0 +1,3 @@
+@RELATION car
+
+@ATTRIBUTE price@ATTRIBUTE cost@ATTRIBUTE doors@ATTRIBUTE capacity@ATTRIBUTE boot@ATTRIBUTE safety
