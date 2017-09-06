@@ -1,3 +1,5 @@
+import model.HeaderAttribute;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -12,7 +14,7 @@ public class ARFFConverter {
     public ARFFConverter() {
     }
 
-    public void convert(String filename, ArrayList<String> headers){
+    public void convert(String filename, ArrayList<HeaderAttribute> headers){
         String fileroot = filename.substring(filename.lastIndexOf("\\")+1);
         try {
             fr = new FileReader(filename);
@@ -20,8 +22,8 @@ public class ARFFConverter {
             fw = new FileWriter("../" + fileroot + "ARFF.txt");
 
             fw.write("@RELATION " + fileroot.substring(0, fileroot.lastIndexOf(".")) +"\n\n");
-            for (String h : headers) {
-                fw.write("@ATTRIBUTE " + h);
+            for (HeaderAttribute h : headers) {
+                fw.write("@ATTRIBUTE " + h.getAttributeName());
             }
             fw.write("");
 
