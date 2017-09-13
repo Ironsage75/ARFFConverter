@@ -6,7 +6,7 @@
 @ATTRIBUTE capacity {2, 4, more}
 @ATTRIBUTE boot size {small, med, big}
 @ATTRIBUTE safety {low, med, high}
-@ATTRIBUTE overall string
+@ATTRIBUTE classification string
 
 @DATA
 vhigh,vhigh,2,2,small,low,unacc
