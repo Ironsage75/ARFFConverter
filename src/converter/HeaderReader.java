@@ -27,7 +27,7 @@ public class HeaderReader {
         ArrayList<HeaderAttribute> headers = new ArrayList<>();
         for (String line : lines) {
             //splits the string up at the space (indicated as how the user should input the information), into name and type
-            String[] split = line.split("\\s+");
+            String[] split = line.split("--");
             /**
              * Check if the attribute is of type "date" in which case the user has the option to input a specific dateformat
              * This gets saved as a DateAttribute, which extends from HeaderAttribute
@@ -43,7 +43,6 @@ public class HeaderReader {
                     attribute = new DateAttribute(split[0], split[1]);
                 }
                 headers.add(attribute);
-                scanner.close();
             }
             /**
              * Check if the attribute is of type "class", in which case the user has to input the different classes
@@ -51,13 +50,12 @@ public class HeaderReader {
              */
             else if (split[1].equalsIgnoreCase("class")) {
                 ClassAttribute attribute = null;
-                System.out.println("Enter classnames for " + split[0] + ", seperated by commas (no spaces):");
-                Scanner scanner = new Scanner(System.in);
-                String classes = scanner.nextLine();
+                System.out.println("Enter classnames for " + split[0] + ", seperated by commas:");
+                Scanner scanner2 = new Scanner(System.in);
+                String classes = scanner2.nextLine();
                 String[] splitClasses = classes.split(",");
                 attribute = new ClassAttribute(split[0], split[1], splitClasses);
                 headers.add(attribute);
-                scanner.close();
             } else {
                 headers.add(new HeaderAttribute(split[0], split[1]));
             }

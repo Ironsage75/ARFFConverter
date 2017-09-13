@@ -24,7 +24,7 @@ public class Main {
         /**
          * Input attribute information to be added to the header of the ARFF file
          */
-        System.out.println("\nInput header names and type in the format 'headername[space]type', where type is [numeric, string, date, class] (type 'stop' when you are done):");
+        System.out.println("\nInput header names and type in the format 'header name--type', where type is [numeric, string, date, class] (type 'stop' when you are done):");
         scanner = scanner.reset();
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
