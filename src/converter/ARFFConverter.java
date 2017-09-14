@@ -39,25 +39,38 @@ public class ARFFConverter {
             writer.write("@RELATION " + fileroot.substring(0, fileroot.lastIndexOf(".")) +"\n\n");
             for (HeaderAttribute h : headers) {
                 //Check if it's a date attribute, in which case the dateformat has to be added
-                if (h.getClass() == DateAttribute.class){
-                    writer.write("@ATTRIBUTE " + h.getAttributeName() + " " + h.getAttributeType() +" '"+ ((DateAttribute) h).getDateFormat() + "'\n");
+                if (h.getClass() == DateAttribute.class && ((DateAttribute) h).getDateFormat() != null){
+                    //Check if the attributename consists of more than one word (seperated by spaces), if yes add quotes
+                    if(h.getAttributeName().split(" ").length > 1) {
+                        writer.write("@ATTRIBUTE \"" + h.getAttributeName() + "\" " + h.getAttributeType() + " '" + ((DateAttribute) h).getDateFormat() + "'\n");
+                    } else{
+                        writer.write("@ATTRIBUTE " + h.getAttributeName() + " " + h.getAttributeType() + " '" + ((DateAttribute) h).getDateFormat() + "'\n");
+                    }
                 }
                 //Check if it's a class attribute, in which case a list of possible classes has to be added
                 else if(h.getClass() == ClassAttribute.class){
                     String[] classes = ((ClassAttribute) h).getClasses();
-                    writer.write("@ATTRIBUTE " + h.getAttributeName() + " {");
+                    if(h.getAttributeName().split(" ").length > 1) {
+                        writer.write("@ATTRIBUTE \"" + h.getAttributeName() + "\" {");
+                    } else {
+                        writer.write("@ATTRIBUTE " + h.getAttributeName() + " {");
+                    }
                     for(int i =0; i < classes.length; i++) {
                         // If it's the last class, don't write a comma
                         if(i+1 == classes.length){
-                            writer.write(classes[i]);
+                            writer.write(classes[i].trim());
                         } else {
-                            writer.write(classes[i] + ", ");
+                            writer.write(classes[i].trim() + ", ");
                         }
                     }
                     writer.write("}\n");
                 } else {
                     //For any other type (numerical, string)
-                    writer.write("@ATTRIBUTE " + h.getAttributeName() + " " + h.getAttributeType() + "\n");
+                    if(h.getAttributeName().split(" ").length > 1) {
+                        writer.write("@ATTRIBUTE \"" + h.getAttributeName() + "\" " + h.getAttributeType() + "\n");
+                    } else {
+                        writer.write("@ATTRIBUTE " + h.getAttributeName() + " " + h.getAttributeType() + "\n");
+                    }
                 }
             }
             writer.write("\n");
